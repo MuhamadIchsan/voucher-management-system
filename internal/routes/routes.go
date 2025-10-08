@@ -15,23 +15,23 @@ func SetupRoutes(r *gin.Engine) {
 	authService := services.NewAuthService()
 	authHandler := handlers.NewAuthHandler(authService)
 
-	r.POST("/login", authHandler.Login)
-
 	voucherRepo := repository.NewVoucherRepository()
 	voucherService := services.NewVoucherService(voucherRepo)
 	voucherHandler := handlers.NewVoucherHandler(voucherService)
 
 	api := r.Group("/api")
 	{
+		api.POST("/login", authHandler.Login)
+		api.GET("/test", voucherHandler.FindAllPaginatedVouchers)
 		voucher := api.Group("/vouchers", middleware.AuthMiddleware())
 		{
-			voucher.POST("/", voucherHandler.CreateVoucher)
-			voucher.GET("/", voucherHandler.FindAllPaginatedVouchers)
-			voucher.GET("/:id", voucherHandler.GetVoucherByID)
-			voucher.PUT("/:id", voucherHandler.UpdateVoucher)
-			voucher.DELETE("/:id", voucherHandler.DeleteVoucher)
-			voucher.POST("/upload-csv", voucherHandler.UploadCSV)
-			voucher.POST("/export", voucherHandler.ExportVouchers)
+			voucher.POST("", voucherHandler.CreateVoucher)
+			voucher.GET("", voucherHandler.FindAllPaginatedVouchers)
+			voucher.GET(":id", voucherHandler.GetVoucherByID)
+			voucher.PUT(":id", voucherHandler.UpdateVoucher)
+			voucher.DELETE(":id", voucherHandler.DeleteVoucher)
+			voucher.POST("upload-csv", voucherHandler.UploadCSV)
+			voucher.POST("export", voucherHandler.ExportVouchers)
 		}
 	}
 }

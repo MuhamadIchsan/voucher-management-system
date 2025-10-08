@@ -2,8 +2,10 @@ package handlers
 
 import (
 	"encoding/csv"
+	"fmt"
 	"net/http"
 	"strconv"
+	"time"
 	"voucher-management-system/internal/dto"
 	"voucher-management-system/internal/services"
 	"voucher-management-system/utils"
@@ -148,9 +150,12 @@ func (h *VoucherHandler) ExportVouchers(c *gin.Context) {
 		return
 	}
 
+	timestamp := time.Now().Format("2006-01-02_15-04-05")
+	filename := fmt.Sprintf("vouchers_%s.csv", timestamp)
+
 	// Set headers for CSV download
 	c.Header("Content-Description", "File Transfer")
-	c.Header("Content-Disposition", `attachment; filename="vouchers.csv"`)
+	c.Header("Content-Disposition", fmt.Sprintf(`attachment; filename="%s"`, filename))
 	c.Header("Content-Type", "text/csv")
 
 	writer := csv.NewWriter(c.Writer)

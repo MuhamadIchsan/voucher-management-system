@@ -16,6 +16,7 @@ type FindAllPaginatedVouchersDTO struct {
 
 type UpdateVoucherDTO struct {
 	DiscountPercent *int    `json:"discount_percent" binding:"omitempty,gte=0,lte=100"`
+	VoucherCode     *string `json:"voucher_code" binding:"omitempty"`
 	ExpiryDate      *string `json:"expiry_date" binding:"omitempty"`
 }
 

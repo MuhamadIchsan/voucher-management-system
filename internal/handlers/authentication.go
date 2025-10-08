@@ -33,6 +33,11 @@ func (h *AuthHandler) Login(c *gin.Context) {
 		return
 	}
 
-	utils.SuccessResponse(c, http.StatusOK, "Login Success", token)
+	responseData := gin.H{
+		"email": req.Email,
+		"token": token,
+	}
+
+	utils.SuccessResponse(c, http.StatusOK, "Login Success", responseData)
 
 }

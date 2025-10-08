@@ -96,6 +96,11 @@ func (s *voucherService) Update(id uint, data dto.UpdateVoucherDTO) (models.Vouc
 		voucher.ExpiryDate = expiryDate
 	}
 
+	if data.VoucherCode != nil {
+		voucher.VoucherCode = *data.VoucherCode
+
+	}
+
 	if err := s.repo.Update(voucher); err != nil {
 		return models.Voucher{}, err
 	}
